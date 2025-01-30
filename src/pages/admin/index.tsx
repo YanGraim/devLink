@@ -46,6 +46,10 @@ export function Admin() {
             console.log(lista)
         })
 
+        return () => {
+            unsub();
+        };
+
     }, [])
 
 
