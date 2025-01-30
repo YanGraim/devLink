@@ -73,8 +73,13 @@ export function Admin() {
             setUrlInput('');
         })
         .catch((error) => {
-            console.log("Erro ao cadastrar no banco", error)
+            console.log("Erro ao cadastrar no banco", error);
         })
+    }
+
+    async function handleDeleteLink(id: string) {
+        const docRef = doc(db, "links", id);
+        await deleteDoc(docRef);
     }
 
     return (
@@ -126,10 +131,10 @@ export function Admin() {
             </h2>
             
             {links.map((link) => (
-                <article className="flex items-center justify-between w-11/12 max-w-xl rounded py-3 px-2 select-none" style={{backgroundColor: link.bg, color: link.color}} key={link.id}>
+                <article className="flex items-center justify-between w-11/12 max-w-xl rounded py-3 px-2 mb-3 select-none" style={{backgroundColor: link.bg, color: link.color}} key={link.id}>
                 <p>{link.name}</p>
                 <div>
-                    <button className="border border-dashed p-1 rounded bg-zinc-900 cursor-pointer">
+                    <button className="border border-dashed p-1 rounded bg-zinc-900 cursor-pointer" onClick={() => handleDeleteLink(link.id)}>
                         <FiTrash size={18} color="#fff"/>
                     </button>
                 </div>
