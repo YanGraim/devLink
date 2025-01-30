@@ -26,6 +26,7 @@ export function Admin() {
     const [urlInput, setUrlInput] = useState("");
     const [textColorInput, setTextColorInput] = useState("#f1f1f1");
     const [backgroundColorInput, setBackgroundColorInput] = useState("#121212");
+    const [links, setLinks] = useState<LinkProps[]>([]);
 
     useEffect(() => {
         const linksRef = collection(db, "links");
@@ -43,7 +44,7 @@ export function Admin() {
                     color: doc.data().color
                 })
             })
-            console.log(lista)
+            setLinks(lista);
         })
 
         return () => {
@@ -123,14 +124,17 @@ export function Admin() {
             <h2 className="font-bold text-white text-3xl mb-4">
                 Meus links
             </h2>
-            <article className="flex items-center justify-between w-11/12 max-w-xl rounded py-3 px-2 select-none" style={{backgroundColor: "#2563eb", color: "#fff"}}>
-                <p>Canal do youtube</p>
+            
+            {links.map((link) => (
+                <article className="flex items-center justify-between w-11/12 max-w-xl rounded py-3 px-2 select-none" style={{backgroundColor: link.bg, color: link.color}} key={link.id}>
+                <p>{link.name}</p>
                 <div>
                     <button className="border border-dashed p-1 rounded bg-zinc-900 cursor-pointer">
                         <FiTrash size={18} color="#fff"/>
                     </button>
                 </div>
             </article>
+            ))}
         </div> 
     )
 }
