@@ -1,6 +1,12 @@
 import { FormEvent, useState } from "react";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
+import { db } from "../../services/firebaseConnection";
+import { 
+    setDoc, // criar um documento
+    doc,
+    getDoc  // buscar um item
+} from "firebase/firestore";
 
 
 export function Networks() {
@@ -10,6 +16,20 @@ export function Networks() {
 
     function handleRegister(e: FormEvent) {
         e.preventDefault();
+        setDoc(doc(db, "social", "link"), {
+            facebook: facebook,
+            instagram: instagram,
+            linkedin: linkedin
+        })
+        .then(() => {
+            console.log("Cadastrados com sucesso");
+            setFacebook('');
+            setInstagram('');
+            setLinkedin('');
+        })
+        .catch((error) => {
+            console.log("Erro ao salvar" + error)
+        })
     }
 
 
