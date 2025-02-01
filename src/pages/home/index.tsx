@@ -55,6 +55,27 @@ export function Home() {
         }
 
         loadLinks();
+    }, []);
+
+
+    useEffect(() => {
+        function loadSocialLinks() {
+            const docRef = doc(db, "social", "link");
+
+            getDoc(docRef)
+            .then((snapshot) => {
+                if(snapshot.data() !== undefined) {
+                    setSocialLinks({
+                        facebook: snapshot.data()?.facebook,
+                        instagram: snapshot.data()?.instagram,
+                        linkedin: snapshot.data()?.linkedin
+                    })
+                }
+            });
+        }; 
+
+        loadSocialLinks();
+
     }, [])
 
 
@@ -75,17 +96,19 @@ export function Home() {
                     </section>
                 ))}
 
-                <footer className="flex justify-center gap-3 my-4">
-                    <Social url="https://facebook.com/yangraim">
-                        <FaFacebook size={35} color="#fff"/>
-                    </Social>
-                    <Social url="https://instagram.com/yan_graim">
-                        <FaInstagram size={35} color="#fff"/>
-                    </Social>
-                    <Social url="https://www.linkedin.com/in/yangraim/">
-                        <FaLinkedin size={35} color="#fff"/>
-                    </Social>
-                </footer>
+                {socialLinks && Object.keys(socialLinks).length > 0 && (
+                    <footer className="flex justify-center gap-3 my-4">
+                        <Social url={socialLinks?.facebook}>
+                            <FaFacebook size={35} color="#fff"/>
+                        </Social>
+                        <Social url={socialLinks?.instagram}>
+                            <FaInstagram size={35} color="#fff"/>
+                        </Social>
+                        <Social url={socialLinks?.linkedin}>
+                            <FaLinkedin size={35} color="#fff"/>
+                        </Social>
+                    </footer>
+                )}
             </main>
         </div>
     )

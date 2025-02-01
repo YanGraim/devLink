@@ -40,9 +40,6 @@ export function Networks() {
         })
         .then(() => {
             console.log("Cadastrados com sucesso");
-            setFacebook('');
-            setInstagram('');
-            setLinkedin('');
         })
         .catch((error) => {
             console.log("Erro ao salvar" + error)
